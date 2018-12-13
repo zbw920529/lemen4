@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="../vue.js"></script>
+  <title>Vue</title>
+	<style>
+		#app{
+			width: 300px;
+			margin: 50px auto;
+		}
+		input{
+			display: block;
+			width: 300px;
+			height: 30px;
+			outline: none;
+		}
+		ul{
+			width: 300px;
+			max-height: 165px;
+			overflow:hidden;
+			margin: 0;
+			padding: 0;
+			border: 1px solid darkgray;
+			border-bottom: none;
+		}
+		li{
+			width: 300px;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			height: 30px;
+			line-height: 30px;
+			border-bottom: 1px solid #ddd;
+		}
+		.active{
+			background: #333;
+		}
+	</style>
+</head>
+<body>
+  <div id="app">
+		<input v-model="title" @keydown='keydown' placeholder="请输入邮箱地址" type="email" />
+			<ul v-show="title!='' ">
+			<li v-for='(item,index) in list' v-bind:class="index===selectIndex?'active':'' " @click='changeValue(index,item)'>{{title+item}}</li>
+		</ul>
+  </div>
+<script type="text/javascript">
+  var app=new Vue({
+    el:'#app',
+    data:{
+      title:'',
+			list:['@qq.com','@163.com','@iwen.com','@click.com'],
+			focused:false,
+			selectIndex:0,
+    },
+		methods:{
+			focue(){
+				this.focused=!this.focused;
+				console.log(this.focused)
+			},
+			changeValue(index,item){
+				this.title=this.title+this.list[index]
+				this.selectIndex=index;
+			},
+			keydown(e){
+				
+				if(e.keyCode===40){
+					if(this.selectIndex<3){
+						this.title=this.title+this.list[this.selectIndex];
+						this.selectIndex+=1
+
+					}else{
+						this.selectIndex=3
+					}
+				}if(e.keyCode===38){
+					if(this.selectIndex>0){
+						if(this.title){
+
+						}
+						this.title=this.title+this.list[this.selectIndex];
+						this.selectIndex-=1;
+					}else{
+						this.selectIndex=0
+					}
+				}if(e.keyCode===27){
+					this.list=''
+				}
+			}
+		},
+		
+  })
+</script>
+</body>
+</html>

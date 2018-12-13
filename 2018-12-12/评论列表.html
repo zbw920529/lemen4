@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="../vue.js"></script>
+		<title>评论列表</title>
+		<style>
+			body{
+				background: #F2DEDE;
+			}
+			#app{
+				width: 500px;
+				background: #DDDDDD;
+				margin: 50px auto;
+				padding: 10px;
+			}
+			h3{
+				margin: 0;
+				margin-bottom: 10px;
+			}
+			h3 small{
+				font-size: 14px;
+				margin-left: 20px;
+			}
+			p{	margin-left: 20px;
+				color: red;
+				font-size: 12px;
+				font-weight: bold;
+			}
+			ol{
+				width: 460px;
+			/* 	padding: 10px 10px 10px 30px; */
+				background: darkorange;
+			}
+			li{
+				width: 440px;
+				padding: 10px;
+				min-height: 0px;
+				line-height: 30px;
+				border-bottom: 1px darkgray solid;
+				
+			}
+			li button{
+				height: 30px;
+				width: 80px;
+				float: right;
+				background: red;
+				border: none;
+				color: #F7F7F7;
+			}
+			input{
+				width: 400px;
+				height: 25px;
+				text-indent: 15px;
+			}
+			button{
+				line-height: 30px;
+				height: 30px;
+				width: 80px;
+				margin-left: 15px;
+				background: #025AA5;
+				border: none;
+				color: #FFFFFF;
+				font-weight: bold;
+			}
+			.active{
+				color: darkred;
+				font-size: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<h3>评论列表<small>留言数为：<i :class="conments.length==0?'active':''">{{conments.length}}</i></small> </h3>
+			<p v-if='conments.length==0'>暂时没有人留言</p>
+			<ol>
+				<li v-for='(item,index) of conments'>{{item}}<button @click='deleComent(index)'>删除留言</button></li>
+			</ol>
+			<input type="text" placeholder="请输入留言内容" v-model='inputValue'/><button @click='submitComent'>提交评论</button>
+		</div>
+
+		<script type="text/javascript">
+			var app = new Vue({
+				el: '#app',
+				data: {
+					conments:['黄河怒浪连天来，大响谹谹如殷雷。','龙伯驱风不敢上，百川喷雪高崔嵬。'],
+					inputValue:'',
+					selcetIndex:0,
+				},
+				methods:{
+					submitComent(){
+						if(this.inputValue!=''){
+							this.conments.push(this.inputValue);
+							this.inputValue=''
+						}else{
+							alert('留言不能为空')
+						}
+					},
+					deleComent(index){
+						this.conments.splice(index,1)
+						this.selcetIndex=index
+					}
+				},
+			})
+		</script>
+	</body>
+</html>
