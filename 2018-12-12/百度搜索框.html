@@ -42,6 +42,7 @@
 		border-bottom: 1px solid #DDDDDD;
 		margin: 0;
 		padding: 0;
+		text-indent: 15px;
 	}
 	button{
 		width: 298px;
@@ -59,18 +60,21 @@
 		float: left;
 		margin-left: 10px;
 	}
+	.active{
+		background: orangered;
+	}
 	</style>
 </head>
 <body>
   <div id="app">
 	  <div class="left">
-		<input type="search" placeholder="请输入搜索内容" v-model='search' @blur="list=''"/>
+		<input type="search" placeholder="请输入搜索内容" v-model='search'  @keyDown='keyUpChangeState'/>
 		<ul>
-			<li v-for='item of list'>{{item}}</li>
+			<li v-for='(item,index) of list' @click.once='changeValue(index)' :class="selectIndex===index?'active':''">{{item}}</li>
 		</ul>
 		</div>
 		<div class="right">
-			<button  @click.once='getData'>点击获取模拟数据</button>
+			<button  @click.once='getData'>搜索前请先点击获取模拟数据</button>
 			<ul>
 				<li v-for='item of news'>{{item}}</li>
 			</ul>
@@ -83,7 +87,7 @@
 	  data:{
 		  search:'',
 		  news:[],
-		  datas:[]
+			selectIndex:0,
 		},
 		methods:{
 			getData(){
@@ -98,18 +102,31 @@
 					})
 					.catch(err=>console.log(err))
 				},
+				keyUpChangeState(e){
+					if(e.keyCode===38){
+						console.log(38);
+						this.search=this.list[this.selectIndex];
+						this.selectIndex++;
+					}
+				},
+				changeValue(index){
+					this.search=this.news[index];
+					this.selectIndex=index;
+					console.log(index)
+				}
 		},
 		computed:{
-			list: function(){
-					for (var i=0;i<this.news.length;i++){
-						if(this.search!=''){
-							if(this.news[i].search(this.search) != -1){
-								this.datas.push(this.news[i]);
-							}
+			list:function(e){
+				var datas=[];
+				if(this.search!=''){
+					for(var i=0;i<this.news.length;i++){
+						if(this.news[i].search(this.search)!=-1){
+							datas.push(this.news[i]);
 						}
 					}
-					return this.datas;
 				}
+				return datas;
+			}
 		}
 	})
 </script>
