@@ -25,10 +25,8 @@
       out-line:0;
     }
     h1 button{
-      margin：0;
-      height:30px;
+      display: inline-block;
       line-height:30px;
-      out-line:0;
     }
     ol li{
       position: relative;
@@ -36,7 +34,8 @@
     }
     ol li button{
       position: absolute;
-      right:10px
+      right:10px;
+      background: red
     }
     .danger{
       color:red;
@@ -66,7 +65,7 @@
         <h2>{{doings}}<span :class="doingLists.length===0? 'danger' : ' '">{{doingLists.length}}</span></h2>
         <ol>
           <li v-for='(item,index) of doingLists'>
-            <input type="checkbox" @click='ChangeValue(item,index)'/>{{item}}{{checked}}
+            <input type="checkbox" @click='ChangeValue(item,index)'/>{{item}}
             <button type="button" @click='deleValue(doingLists,index)'>删除</button>
           </li>
         </ol>

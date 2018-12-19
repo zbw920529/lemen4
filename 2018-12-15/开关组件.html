@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>开关组件</title>
+  <style>
+    .switch{
+      width:100px;
+      height:30px;
+      background:#9f9;
+      border-radius:15px;
+      line-height:30px;
+      border:1px solid green;
+      position:relitive
+    }
+    .active{
+      width:100px;
+      height:30px;
+      border-radius:15px;
+      line-height:30px;
+      border:1px solid green;
+      position:relitive
+      left:11px
+    }
+    .span{
+      display:inline-block;
+      width:30px;
+      height:30px;
+      background:red;
+      border-radius:15px;
+      position:absolute;
+    }
+    .spanFalse{
+      display:inline-block;
+      width:30px;
+      height:30px;
+      background:blue;
+      border-radius:15px;
+      position:absolute;
+      transform: translateX(70px);
+    }
+  </style>
+</head>
+<body>
+  <div id='app'>
+  <switchs></switchs>
+  </div>
+<script type="text/javascript">
+Vue.component('switchs',{
+  props:[],
+  data(){
+    return{
+      checked:false
+    }
+  },
+  template:`
+    <div :class="checked?'switch':'active'">
+      <div @click='changeChecked':class="checked?'spanFalse':'span'"></div>
+    </div>
+  `,
+  methods:{
+    changeChecked(){
+      this.checked=!this.checked
+    }
+  }
+})
+const vm=new Vue({
+  el:'#app',
+  template:`
+    <switchs />
+  `
+})
+</script>
+</body>
+</html>
