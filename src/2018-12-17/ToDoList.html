@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>todolist</title>
+  <style media="screen">
+    .ToDoList{
+      width:500px;
+      min-height: 100x;
+      background: #999;
+      margin:30px auto;
+      padding:30px
+    }
+    h1{
+      margin：0；
+      height:30px;
+      line-height:30px
+    }
+    h1 input{
+      height:30px;
+      line-height:30px;
+      out-line:0;
+    }
+    h1 button{
+      display: inline-block;
+      line-height:30px;
+    }
+    ol li{
+      position: relative;
+      line-height: 30px
+    }
+    ol li button{
+      position: absolute;
+      right:10px;
+      background: red
+    }
+    .danger{
+      color:red;
+      font-size: 30px
+    }
+    h2 {
+      position: relative;
+    }
+    h2 span{
+      position: absolute;
+      right:50px
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+</div>
+<script type="text/javascript">
+  Vue.component('ToDoListHeader',{
+    props:['header','doingList','doneList','doing','done'],
+    template:`
+      <div class="ToDoList">
+        <h1>{{headers}}
+          <input type="text" v-model="values">
+          <button type="button"@click='ChangeValues(values)'>添加事项</button>
+        </h1>
+        <h2>{{doings}}<span :class="doingLists.length===0? 'danger' : ' '">{{doingLists.length}}</span></h2>
+        <ol>
+          <li v-for='(item,index) of doingLists'>
+            <input type="checkbox" @click='ChangeValue(item,index)'/>{{item}}
+            <button type="button" @click='deleValue(doingLists,index)'>删除</button>
+          </li>
+        </ol>
+        <div class='div'><h2>{{dones}}<span :class="doneLists.length===0? 'danger' : ' '"  >{{doneLists.length}}</span></h2></div>
+        <ol>
+          <li v-for='(item,index) of doneLists'>
+            {{item}}
+            <button type="button" @click='deleValue(doneLists,index)'>删除</button>
+          </li>
+        </ol>
+      </div>
+    `,
+    data(){
+      return{
+        headers:this.header,
+        values:'',
+        doingLists:this.doingList,
+        doneLists:this.doneList,
+        doings:this.doing,
+        dones:this.done,
+        checked:false,
+      }
+    },
+    methods:{
+      ChangeValues(values){
+        this.doingLists.push(values)
+      },
+      deleValue(item,index){
+        item.splice(index,1)
+      },
+      ChangeValue(item,index){
+        console.log(item,index)
+        this.doingLists.splice(index,1)
+        this.doneLists.push(item)
+      }
+    },
+  })
+  new Vue({
+    el:'#app',
+    data(){
+      return{
+        header:'ToDoList',
+        doing:'正在进行',
+        done:'已完成',
+        value:'添加ToDo',
+        doingList:['第一个内容','第二个内容','第三个内容'],
+        doneList:['第三是个内容','第搜索二个内容','第搜索三个内容']
+      }
+    },
+    template:`
+    <ToDoListHeader
+      :header='this.header'
+      :doingList='doingList'
+      :doneList='doneList'
+      :doing='doing'
+      :done='done'
+      />
+    `
+  })
+
+</script>
+</body>
+</html>

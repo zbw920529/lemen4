@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>JS滚动条平滑到顶</title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				background-color: #EEEEEE;
+			}
+
+			header {
+				height: 200px;
+				width: 1200px;
+				margin: 0 auto;
+				box-shadow:
+					0 5px 15px rgba(0, 0, 0, .5),
+					1200px 0 0 #222222,
+					-1200px 0 0 #222222;
+				background-color: #222222;
+				color: #ffffff;
+				text-align: center;
+				line-height: 200px;
+				font-size: 25px;
+				font-family: Arial, 黑体;
+			}
+
+			.content {
+				width: 1200px;
+				height: 1500px;
+				margin: 0 auto;
+				box-shadow:
+					2px 0 10px rgba(0, 0, 0, .5),
+					-2px 0 10px rgba(0, 0, 0, .5);
+				border: 1px solid rgba(0, 0, 0, .5);
+			}
+
+			.content>span {
+				display: block;
+				margin: 650px auto;
+				height: 100px;
+				line-height: 100px;
+				background-color: #222222;
+				color: #ffffff;
+				text-align: center;
+				box-shadow:
+					2px 0 10px rgba(0, 0, 0, .5),
+					-2px 0 10px rgba(0, 0, 0, .5);
+				font-size: 25px;
+				font-family: Arial, 黑体;
+			}
+
+			footer {
+				height: 50px;
+				width: 1200px;
+				margin: 0 auto;
+				box-shadow:
+					0 -5px 15px rgba(0, 0, 0, .5),
+					1200px 0 0 #222222,
+					-1200px 0 0 #222222;
+				background-color: #222222;
+				color: #ffffff;
+				text-align: center;
+				line-height: 50px;
+				font-size: 25px;
+				font-family: Arial, 黑体;
+			}
+
+			#scroll {
+				position: fixed;
+				right: 10px;
+				bottom: 10px;
+				width: 60px;
+				height: 60px;
+				background-color: #ffffff;
+				border-radius: 50%;
+				overflow: hidden;
+				box-shadow:
+					0 0 10px 1px rgba(0, 0, 0, .8);
+				cursor: pointer;
+				transition: all 0.2s ease;
+			}
+
+			#scroll:hover {
+				box-shadow:
+					0 0 15px 3px #383838;
+			}
+
+			#scroll>img {
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function() {
+				var scroll,
+  					scrolltop,
+  					times;
+				scroll = document.getElementById("scroll");
+				scroll.onclick = times;
+				function times() {
+					// 自我注释:获取滚动条距离顶部距离需要实时更新,不然不会有效果的,||代表或者,前者和后者组合写是为了兼容性更好
+					scrolltop = document.body.scrollTop || document.documentElement.scrollTop;
+					// 时间,越小越快,后面的延迟也可以一起改
+					scrolltop -= 20;
+					if (scrolltop > 0) {
+						window.scrollTo(0, scrolltop);
+						window.setTimeout(times, 10);
+					} else {
+						scrolltop = 0;
+					}
+					console.log(scrolltop);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			顶部-Head
+		</header>
+		<div class="content">
+			<span>
+				中部-Body
+			</span>
+		</div>
+    <div class="content">
+      <span>
+        中部-Body
+      </span>
+    </div>		<div class="content">
+    			<span>
+    				中部-Body
+    			</span>
+    		</div>
+		<footer>
+			底部-Foot&nbsp;&nbsp;作者:Li jiazheng
+		</footer>
+		<div id="scroll">
+			<img src="images/toTop.png" />
+		</div>
+	</body>
+	<!-- 已完成,2018.12.19 -->
+</html>

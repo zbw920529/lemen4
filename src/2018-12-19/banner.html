@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="./animate.css">
+  <title>banner组件</title>
+  <style>
+    .warp {
+      width: 403px;
+      height: 251px;
+      overflow: hidden;
+      margin: 50px auto;
+      position: relative;
+    }
+
+    .warp .img {
+      width: 403px;
+      height: 251px;
+    }
+
+    .warp .img img {
+      display: block;
+      width: 403px;
+      height: 251px;
+    }
+
+    .warp .button {
+      position: absolute;
+      top: 40%;
+      width: 403px;
+    }
+
+    .warp .button .btn_l {
+      float: left;
+      width: 30px;
+      background: rgb(88, 88, 88, 0.6)
+    }
+
+    .warp .button .btn_r {
+      float: right;
+      width: 30px;
+      background: rgb(88, 88, 88, 0.6)
+    }
+
+    .warp .span {
+      position: absolute;
+      height: 40px;
+      width: 200px;
+      line-height: 40px;
+      top: 80%
+    }
+
+    .warp .span span {
+      display: inline-block;
+      margin-left: 10px;
+      height: 8px;
+      width: 20px;
+      border-radius: 4px;
+      background: #ddd;
+    }
+
+    .warp .span .active {
+      display: inline-block;
+      margin-left: 10px;
+      height: 8px;
+      width: 20px;
+      border-radius: 4px;
+      background: blue;
+    }
+    .fadeIn {
+        animation: fadeIn 1s linear;
+    }
+
+    .fadeOut {
+        animation: fadeOut 1s linear;
+    }
+    @keyframes fadeIn {
+      from {
+          transform: translateX(403px)
+          /* transform: scale(1,1) */
+      }
+      to {
+          transform: translateX(0px)
+          /* transform: scale(0,0) */
+      }
+    }
+    @keyframes fadeOut {
+      from {
+          transform: translateX(0px)
+      }
+      to {
+          opacity: 1;
+          transform: translateX(403px)
+          /* transform: scale(1,1) */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <script>
+    Vue.component('Banner', {
+      props: {
+        imageUrl: {
+          type: Array,
+        },
+        selectIndex: {
+          type: Number,
+          default: 0
+        }
+      },
+      data() {
+        return {
+          iImageUrl: this.imageUrl,
+          IselectIndex: this.selectIndex,
+          spanIndex: this.IselectIndex,
+          enter: 'animated slideInRight',
+          leave: 'animated slideOutLeft',
+          init:true,
+        }
+      },
+      template: `
+      <div class='warp'>
+        <div class='img'>
+          <transition-group
+            enter-active-class="fadeIn"
+            leave-active-class="fadeOut"
+            >
+            <img
+              v-for='(url,index) of iImageUrl'
+              :src="url" alt="banner图"
+              v-show='IselectIndex===index'
+              :key='url'
+              />
+          </transition-group>
+        </div>
+        <div class='button'>
+          <button
+            type="button"
+            class='btn_l'
+            @click='prve'>
+            上一页
+          </button>
+          <button
+            type="button"
+            class='btn_r'
+            @click='next'
+            >
+            下一页
+          </button>
+        </div>
+        <div class='span'>
+          <span
+            v-for='(url,index) of imageUrl'
+            :class="IselectIndex===index?'active':''"
+            @mouseover='mouseover(index)'
+            >
+          </span>
+        </div>
+      </div>
+      `,
+      methods: {
+        prve() {
+          this.IselectIndex--;
+          if (this.IselectIndex < 0) this.IselectIndex = this.iImageUrl.length - 1
+          this.enter = 'animated slideInRight';
+          this.leave = 'animated slideOutLeft';
+        },
+        next() {
+          this.IselectIndex++;
+          if (this.IselectIndex > this.iImageUrl.length - 1) this.IselectIndex = 0
+          this.enter = 'animated slideInLeft';
+          this.leave = 'animated slideOutRight';
+        },
+        mouseover(index){
+          this.IselectIndex=index;
+          this.init=false;
+          console.log(this,this.init)
+        }
+      },
+      created() {
+      },
+      beforeUpdate(){
+        clearTimeout()
+      }
+    })
+    new Vue({
+      el: '#app',
+      template: `
+        <Banner
+          :imageUrl='imageUrl'
+          :selectIndex='selectIndex'
+          />
+      `,
+      data() {
+        return {
+          imageUrl: ['./images/07.jpg', './images/08.jpg', './images/09.jpg', './images/10.jpg', './images/11.jpg', './images/12.jpg', ],
+          selectIndex: 0,
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

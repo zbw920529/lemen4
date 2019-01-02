@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Slider组件</title>
+  <style>
+    .wrap{
+      width:500px;
+      height:5px;
+      padding: 0;
+      background: #ddd
+    }
+  .wrap .slider{
+      padding: 0;
+      margin: 0;
+      width:400px;
+      height:5px;
+      border-radius:2.5px;
+      background:rgb(87, 163, 243);
+      position:relative;
+    }
+  .wrap .slider .slider-childer{
+      display:inline-block;
+      width:15px;
+      height:15px;
+      padding: 0;
+      margin: 0;
+      background:red;
+      position:absolute;
+      top:-5px;
+      border-radius:7.5px;
+      left:0px
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    Vue.component('Slider',{
+      props:{},
+      data(){return{
+        width:0,
+        left:0,
+        isDrop:false
+      }},
+      template:`
+        <div class="wrap">
+          <div class='slider'
+            :style='{width:width+"px"}'
+            >
+            <span
+              class='slider-childer'
+              ></span>
+            <span
+              class='slider-childer'
+              @mousedown='changeLeft'
+              :style='{left:left+"px"}'
+              ></span>
+          </div>
+            {{width}}
+        </div>
+      `,
+      methods:{
+        changeLeft(e){
+          var w,x;//存储left和width值
+              var e = e || window.event; //要用event这个对象来获取鼠标的位置
+              x = e.clientX - e.target.offsetLeft;
+              this.isDrop = true; //设为true表示可以移动
+            document.onmousemove=(e)=>{
+              if(this.isDrop){
+                if(e.clientX<501){
+                  this.left=e.clientX-15;
+                  this.width=e.clientX;
+                  console.log(e,e.target.offsetWidth);
+                }else{
+                  return
+                }
+              }
+          }
+          document.onmouseup = ()=>{
+              console.log(this.isDrop)
+              this.isDrop = false; //设置为false不可移动
+          }
+        },
+      }
+    })
+    new Vue({
+      el:'#app',
+      template:`
+      <Slider />
+      `,
+
+    })
+  </script>
+</body>
+</html>

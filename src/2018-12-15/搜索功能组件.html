@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>搜索功能组件</title>
+  <style>
+    input {
+        width: 100%;
+        height: 32px;
+        border: 1px solid #dcdee2;
+        border-radius: 4px;
+        line-height: 32px;
+        margin-right: 5px;
+        text-align: center;
+
+        list-style: none;
+    }
+    ul{
+      padding: 0
+    }
+    ul li {
+        width: 100%;
+        height: 32px;
+        border: 1px solid #dcdee2;
+        border-radius: 4px;
+        line-height: 32px;
+        text-align: center;
+        margin-right: 5px;
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+    }
+    .active{
+      background: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    Vue.component('Search',{
+      props:['showList'],
+      data(){
+        return{
+          iShowList:this.showList,
+          inputValue:'这',
+          secondValue:''
+        }
+      },
+      template:`
+        <div>
+          <input
+            type="search"
+            placeholder='请输入要搜索的内容'
+            v-model='inputValue'
+            />
+          <ul>
+            <li
+              v-for='n of showChange'
+              >{{n}}
+            </li>
+          </ul>
+          <input
+            type="text"
+            placeholder='请输入要添加至搜索列表的内容'
+            v-model='secondValue'
+            />
+          <input
+            type="button"
+            value='添加搜索列表内容'
+            @click='addTestList'
+             />
+        </div>`,
+      computed:{
+        showChange(){
+          const newArr=[];
+          const length=this.iShowList.length
+          if(this.inputValue!=''){
+            for(var i=0;i<length;i++){
+              if(this.iShowList[i].search(this.inputValue)!=-1){
+                newArr.push(this.iShowList[i])
+              }
+            }
+          }
+          return newArr;
+        }
+      },
+      methods:{
+        addTestList(){
+          this.$emit('update:showList',this.iShowList.push(this.secondValue))
+          this.secondValue=''
+          console.log(this.iShowList)
+        }
+      }
+    })
+    new Vue({
+      el:'#app',
+      data(){
+        return{
+          showList:['这是一个测试数据1','这是一个测试数据2','这是一个测试数据3','这是一个测试数据4','这是一个测试数据5','这是一个测试数据6','这是一个测试数据7']
+        }
+      },
+      template:`
+        <Search :showList.sync='showList'/>
+      `
+    })
+  </script>
+</body>
+</html>
