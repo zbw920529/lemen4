@@ -1,0 +1,11 @@
+{
+  "users":[
+    {"username":"admin","password":"123456","age":28,"job":"Java开发","rellname":"菜鸟","userid":5232345646351},
+    {"username":"zhaofei","password":"123456","age":18,"job":"前端开发","rellname":"赵飞","userid":5232345646352},
+    {"username":"guanyu","password":"123456","age":12,"job":"产品经理","rellname":"关于","userid":5232345646353},
+    {"username":"lixunhuan","password":"123456","age":45,"job":"后端开发","rellname":"李寻欢","userid":5232345646354},
+    {"username":"iwen","password":"123456","age":56,"job":"Python","rellname":"张三","userid":5232345646355},
+    {"username":"herry","password":"123456","age":28,"job":"Java开发","rellname":"李二牛","userid":5232345646356},
+    {"username":"json","password":"123456","age":23,"job":"Java开发","rellname":"李莉莉","userid":5232345646357}
+  ]
+}
